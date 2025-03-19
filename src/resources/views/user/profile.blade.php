@@ -1,26 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マイページ</title>
-    <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">COACHTECH</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="/logout" class="nav-link">ログアウト</a></li>
-                <li class="nav-item"><a href="/sell" class="btn btn-light ms-2">出品</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+@extends('layouts.app')
 
-<div class="container mt-4">
+@section('title', 'マイページ')
+
+@section('content')
+<div class="container-sm mt-4">
     <h2>マイページ</h2>
     <div class="card mb-4">
         <div class="card-body d-flex">
@@ -79,5 +62,4 @@
         </div>
     @endif
 </div>
-</body>
-</html>
+@endsection

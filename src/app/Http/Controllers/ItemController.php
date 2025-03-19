@@ -11,9 +11,8 @@ class ItemController extends Controller
 
     public function index()
     {
-        $items = Item::latest()->get(); // 最新順に取得
+        $items = Item::where('is_sold', false)->get();
         return view('items.index', compact('items'));
-
     }
 
     public function mylist()
