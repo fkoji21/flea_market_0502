@@ -13,8 +13,17 @@
         <h4>¥{{ number_format($item->price) }} (税込)</h4>
 
         <div class="d-flex align-items-center mb-3">
-            <button type="button" style="background: none; border: none; cursor: pointer; font-size: 1.2rem;">
-                ⭐ 3
+            @if($item->likes->where('user_id', Auth::id())->count())
+            <form action="{{ route('item.unlike', $item->id) }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit" class="btn btn-warning">いいね解除</button>
+            </form>
+            @else
+            <form action="{{ route('item.like', $item->id) }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit" class="btn btn-outline-warning">いいね</button>
+            </form>
+            @endif
             </button>
             <span class="ms-3" style="font-size: 1.2rem;">💬 {{ count($item->comments) }}</span>
         </div>
@@ -39,10 +48,13 @@
             @endforeach
         </ul>
         @auth
-        <form action="/items/{{ $item->id }}/comment" method="POST">
+        <form action="{{ route('item.comment', $item->id) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <textarea name="comment" rows="3" class="form-control" placeholder="コメントを入力"></textarea>
+                @error('comment')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
             <button type="submit" class="btn btn-primary">コメントを送信する</button>
         </form>

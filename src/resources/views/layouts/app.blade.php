@@ -43,13 +43,13 @@
     @endif
     <main class="container mt-4">
         @if (session('success'))
-        <div class="alert alert-success text-center mt-3">
+        <div class="alert alert-success text-center mt-3 flash-message">
         {{ session('success') }}
         </div>
         @endif
 
         @if (session('error'))
-        <div class="alert alert-danger text-center mt-3">
+        <div class="alert alert-danger text-center mt-3 flash-message">
         {{ session('error') }}
         </div>
         @endif
