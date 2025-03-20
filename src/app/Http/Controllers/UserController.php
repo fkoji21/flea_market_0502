@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserProfileRequest;
+use App\Models\Address;
 use App\Models\Item;
-use App\Models\User;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
-        $tab = $request->query('tab', 'buy'); // デフォルトで購入履歴タブ
         $user = Auth::user();
-        $purchasedItems = $user->purchases()->with('item')->get()->pluck('item');
-        $soldItems = Item::where('user_id', $user->id)->get();
+        $tab = $request->tab ?? 'buy';
+
+        $purchasedItems = Purchase::where('user_id', $user->id)->with('item')->get()->pluck('item');
+        $soldItems = Item::where('user_id', $user->id)->where('is_sold', true)->get();
 
         return view('user.profile', compact('user', 'purchasedItems', 'soldItems', 'tab'));
 
     }
 
-    public function edit()
-    {
-        $user = Auth::user();
-        return view('user.edit', compact('user'));
-    }
-
-    public function update(Request $request)
+    public function update(UpdateUserProfileRequest $request)
     {
         $user = Auth::user();
         if ($request->hasFile('profile_image')) {
@@ -36,6 +33,22 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->save();
 
-        return redirect('/mypage');
+        $address = Address::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'postal_code' => $request->postal_code,
+                'address_line1' => $request->address_line1,
+                'address_line2' => $request->address_line2,
+            ]
+        );
+
+        return redirect('/mypage')->with('success', 'プロフィールを更新しました！');
+    }
+
+    public function edit()
+    {
+        $user = Auth::user();
+        $address = Address::where('user_id', $user->id)->first();
+        return view('user.edit', compact('user', 'address'));
     }
 }

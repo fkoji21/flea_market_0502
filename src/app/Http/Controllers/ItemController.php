@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreItemRequest;
 use App\Models\Item;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
@@ -37,21 +37,24 @@ class ItemController extends Controller
         return view('items.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
         $path = $request->file('image_url')->store('items', 'public');
+        $imageUrl = '/storage/' . $path;
 
         Item::create([
+            'user_id' => Auth::id(),
+            'image_url' => $imageUrl,
             'title' => $request->title,
             'description' => $request->description,
-            'image_url' => '/storage/' . $path,
             'category' => $request->category,
             'condition' => $request->condition,
             'price' => $request->price,
-            'user_id' => Auth::id(),
+            'is_sold' => false,
+            'status' => 'available',
         ]);
 
-        return redirect('/');
+        return redirect('/')->with('success', '商品を出品しました！');
 
     }
 

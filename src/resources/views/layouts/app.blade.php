@@ -42,6 +42,29 @@
     </nav>
     @endif
     <main class="container mt-4">
+        @if (session('success'))
+        <div class="alert alert-success text-center mt-3">
+        {{ session('success') }}
+        </div>
+        @endif
+
+        @if (session('error'))
+        <div class="alert alert-danger text-center mt-3">
+        {{ session('error') }}
+        </div>
+        @endif
+
+        <script>
+        // 3秒後にフラッシュメッセージをフェードアウト
+        setTimeout(() => {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(msg => {
+                msg.style.transition = 'opacity 0.5s';
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 3000);
+        </script>
         @yield('content')
     </main>
 
