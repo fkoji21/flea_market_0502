@@ -9,11 +9,11 @@
         @forelse ($likedItems as $item)
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="{{ $item->image_url }}" class="card-img-top" alt="商品画像">
+                    <img src="{{ $item->item->image_url }}" class="card-img-top" alt="商品画像">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $item->title }}</h5>
-                        <p class="card-text">{{ number_format($item->price) }}円</p>
-                        <a href="/item/{{ $item->id }}" class="btn btn-primary">詳細を見る</a>
+                        <h5 class="card-title">{{ $item->item->title }}</h5>
+                        <p class="card-text">{{ number_format($item->item->price) }}円</p>
+                        <a href="/item/{{ $item->item->id }}" class="btn btn-primary">詳細を見る</a>
                     </div>
                 </div>
             </div>

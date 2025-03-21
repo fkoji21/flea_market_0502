@@ -5,6 +5,7 @@
 @section('content')
 <div class="container-sm mt-4">
     <h1>おすすめ商品</h1>
+    <a href="/mylist" class="btn btn-outline-primary mb-3">マイリストを見る</a>
     <div class="row">
         @foreach ($items as $item)
             <div class="col-md-4 mb-4">
