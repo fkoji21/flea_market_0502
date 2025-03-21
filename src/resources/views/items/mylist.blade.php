@@ -17,6 +17,10 @@
                     </div>
                 </div>
             </div>
+            {{-- ページネーション（検索キーワード引き継ぎあり） --}}
+            <div class="d-flex justify-content-center">
+                {{ $likedItems->appends(request()->query())->links() }}
+            </div>
         @empty
             <p>まだいいねした商品はありません。</p>
         @endforelse

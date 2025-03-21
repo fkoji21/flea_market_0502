@@ -20,6 +20,10 @@
         <div class="container">
             <a class="navbar-brand" href="/">COACHTECH</a>
             <div class="collapse navbar-collapse">
+                <form action="{{ route('items.index') }}" method="GET" class="d-flex me-auto">
+                    <input type="text" name="keyword" class="form-control me-2" placeholder="商品名で検索" value="{{ request('keyword') }}">
+                    <button type="submit" class="btn btn-outline-light">検索</button>
+                </form>
                 <ul class="navbar-nav ms-auto">
                     @auth
                         <li class="nav-item">

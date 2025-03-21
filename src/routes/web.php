@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 // ✅ 商品関連
-Route::get('/', [ItemController::class, 'index']);
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show']);
 Route::get('/sell', [ItemController::class, 'create'])->middleware('auth', 'verified');
 Route::post('/sell', [ItemController::class, 'store'])->middleware('auth', 'verified');
@@ -60,3 +60,4 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::post('/register', [RegisterController::class, 'store']);
+Route::get('/mylist', [ItemController::class, 'mylist'])->middleware(['auth', 'verified'])->name('items.mylist');

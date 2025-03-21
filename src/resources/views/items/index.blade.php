@@ -18,6 +18,10 @@
                 </div>
             </div>
         @endforeach
+        {{-- ページネーション（検索キーワード引き継ぎあり） --}}
+        <div class="d-flex justify-content-center">
+            {{ $items->appends(request()->query())->links() }}
+        </div>
     </div>
 </div>
 @endsection
