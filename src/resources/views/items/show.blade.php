@@ -28,7 +28,9 @@
             <span class="ms-3" style="font-size: 1.2rem;">💬 {{ count($item->comments) }}</span>
         </div>
 
-        <a href="/purchase/{{ $item->id }}" class="btn btn-danger mb-3">購入手続きへ</a>
+        <!--a href="/purchase/{{ $item->id }}" class="btn btn-danger mb-3">購入手続きへ</a-->
+        <a href="{{ route('checkout', ['item_id' => $item->id]) }}" class="btn btn-danger mb-3">購入手続きへ</a>
+
 
         <h5>商品説明</h5>
         <p>{{ $item->description }}</p>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -61,3 +62,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::post('/register', [RegisterController::class, 'store']);
 Route::get('/mylist', [ItemController::class, 'mylist'])->middleware(['auth', 'verified'])->name('items.mylist');
+
+Route::get('/checkout/{item_id}', [StripeController::class, 'checkout'])->middleware(['auth', 'verified'])->name('checkout');
+Route::post('/payment', [StripeController::class, 'payment'])->middleware(['auth', 'verified'])->name('payment');
+Route::get('/payment/success', [StripeController::class, 'paymentSuccess'])->name('payment.success');
