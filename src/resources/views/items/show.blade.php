@@ -37,7 +37,10 @@
 
         <h5>商品情報</h5>
         <ul>
-            <li>カテゴリー: {{ $item->category }}</li>
+            <li>カテゴリー:
+            @foreach ($item->categories as $category)
+                <span class="badge bg-danger">{{ $category->name }}</span>
+            @endforeach</li>
             <li>商品の状態: {{ $item->condition }}</li>
         </ul>
 

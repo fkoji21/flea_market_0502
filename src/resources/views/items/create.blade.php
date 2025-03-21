@@ -20,13 +20,13 @@
             <textarea name="description" rows="4" class="form-control" required></textarea>
         </div>
         <div class="mb-3">
-            <label for="category" class="form-label">カテゴリー</label>
-            <select name="category" class="form-select" required>
-                <option value="">選択してください</option>
-                @foreach (['ファッション', '家電', 'インテリア', 'コスメ', '本', 'ゲーム'] as $category)
-                    <option value="{{ $category }}">{{ $category }}</option>
-                @endforeach
-            </select>
+            <label class="form-label">カテゴリー（複数選択可）</label>
+            <div class="d-flex flex-wrap gap-2">
+            @foreach ($categories as $category)
+                <input type="checkbox" class="btn-check" id="category{{ $category->id }}" name="categories[]" value="{{ $category->id }}">
+                <label class="btn btn-outline-danger" for="category{{ $category->id }}">{{ $category->name }}</label>
+            @endforeach
+            </div>
         </div>
         <div class="mb-3">
             <label for="condition" class="form-label">商品の状態</label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StoreItemRequest;
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Item;
 use App\Models\Like;
@@ -55,8 +56,8 @@ class ItemController extends Controller
 
     public function create()
     {
-        // 商品出品フォーム
-        return view('items.create');
+        $categories = Category::all();
+        return view('items.create', compact('categories'));
     }
 
     public function store(StoreItemRequest $request)
@@ -64,20 +65,20 @@ class ItemController extends Controller
         $path = $request->file('image_url')->store('items', 'public');
         $imageUrl = '/storage/' . $path;
 
-        Item::create([
+        $item = Item::create([
             'user_id' => Auth::id(),
             'image_url' => $imageUrl,
             'title' => $request->title,
             'description' => $request->description,
-            'category' => $request->category,
             'condition' => $request->condition,
             'price' => $request->price,
             'is_sold' => false,
             'status' => 'available',
         ]);
 
+        // カテゴリの多対多登録
+        $item->categories()->sync($request->input('categories'));
         return redirect('/')->with('success', '商品を出品しました！');
-
     }
 
     public function soldItems()

@@ -27,7 +27,7 @@ class StoreItemRequest extends FormRequest
             'image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'category' => 'required|string',
+            'categories' => 'required|array|min:1',
             'condition' => 'required|string',
             'price' => 'required|integer|min:0',
         ];
@@ -39,7 +39,7 @@ class StoreItemRequest extends FormRequest
             'image_url.required' => '商品画像は必須です。',
             'title.required' => '商品名を入力してください。',
             'description.required' => '商品説明を入力してください。',
-            'category.required' => 'カテゴリーを選択してください。',
+            'categories.required' => 'カテゴリーを選択してください。',
             'condition.required' => '商品の状態を選択してください。',
             'price.required' => '価格を入力してください。',
             'price.integer' => '価格は数値で入力してください。',
