@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\CommentRequest;
 use App\Http\Requests\StoreItemRequest;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Item;
-use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
-
     public function index(Request $request)
     {
-        $query = Item::query()->where('is_sold', false);
+        $query = Item::query();
+
+        // 自分が出品した商品を除外
+        if (Auth::check()) {
+            $query->where('user_id', '!=', Auth::id());
+        }
 
         if ($request->filled('keyword')) {
             $keyword = $request->keyword;
             $query->where('title', 'like', "%{$keyword}%");
         }
 
-        $items = $query->paginate(10);
+        $items = $query->paginate(9);
         return view('items.index', compact('items'));
-
     }
 
     public function mylist(Request $request)
@@ -33,7 +35,11 @@ class ItemController extends Controller
         $user = Auth::user();
         $likedItemsQuery = $user->likes()->with('item');
 
-        // キーワードがあれば絞り込み
+        // 自分の商品は除外
+        $likedItemsQuery->whereHas('item', function ($query) use ($user) {
+            $query->where('user_id', '!=', $user->id);
+        });
+
         if ($request->filled('keyword')) {
             $keyword = $request->keyword;
             $likedItemsQuery->whereHas('item', function ($query) use ($keyword) {
@@ -41,17 +47,14 @@ class ItemController extends Controller
             });
         }
 
-        //$likedItems = $likedItemsQuery->get()->pluck('item');
-        $likedItems = $likedItemsQuery->paginate(10);
-
+        $likedItems = $likedItemsQuery->paginate(9);
         return view('items.mylist', compact('likedItems'));
     }
 
     public function show($item_id)
     {
-        $item = Item::with('comments.user')->findOrFail($item_id);
+        $item = Item::with(['comments.user', 'categories'])->findOrFail($item_id);
         return view('items.show', compact('item'));
-
     }
 
     public function create()
@@ -73,49 +76,20 @@ class ItemController extends Controller
             'condition' => $request->condition,
             'price' => $request->price,
             'is_sold' => false,
-            'status' => 'available',
         ]);
 
-        // カテゴリの多対多登録
         $item->categories()->sync($request->input('categories'));
         return redirect('/')->with('success', '商品を出品しました！');
     }
 
-    public function soldItems()
+    public function soldItem()
     {
         $items = Item::where('user_id', Auth::id())->get();
         return view('user.sold_items', compact('items'));
     }
 
-    public function like($item_id)
+    public function addComment(CommentRequest $request, $item_id)
     {
-        $user = Auth::user();
-
-        Like::create([
-            'user_id' => $user->id,
-            'item_id' => $item_id,
-        ]);
-
-        return redirect()->back()->with('success', 'いいねしました！');
-    }
-
-    public function unlike($item_id)
-    {
-        $user = Auth::user();
-
-        Like::where('user_id', $user->id)
-            ->where('item_id', $item_id)
-            ->delete();
-
-        return redirect()->back()->with('success', 'いいねを解除しました！');
-    }
-
-    public function addComment(StoreCommentRequest $request, $item_id)
-    {
-        $request->validate([
-            'comment' => 'required|string|max:500',
-        ]);
-
         Comment::create([
             'item_id' => $item_id,
             'user_id' => Auth::id(),

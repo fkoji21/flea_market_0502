@@ -94,7 +94,6 @@ class ItemSeeder extends Seeder
             Item::create(array_merge($item, [
                 'user_id' => $user->id,
                 'is_sold' => false,
-                'status' => 'available',
             ]));
         }
 

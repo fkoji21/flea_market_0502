@@ -6,24 +6,28 @@
 <div class="container-sm mt-4">
     <h1>マイリスト（いいねした商品）</h1>
     <div class="row">
-        @forelse ($likedItems as $item)
+        @forelse ($likedItems as $like)
             <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{ $item->item->image_url }}" class="card-img-top" alt="商品画像">
+                <div class="card position-relative">
+                    <img src="{{ $like->item->image_url }}" class="card-img-top" alt="商品画像">
+                    @if ($item->is_sold)
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">SOLD</span>
+                    @endif
                     <div class="card-body">
-                        <h5 class="card-title">{{ $item->item->title }}</h5>
-                        <p class="card-text">{{ number_format($item->item->price) }}円</p>
-                        <a href="/item/{{ $item->item->id }}" class="btn btn-primary">詳細を見る</a>
+                        <h5 class="card-title">{{ $like->item->title }}</h5>
+                        <p class="card-text">{{ number_format($like->item->price) }}円</p>
+                        <a href="/item/{{ $like->item->id }}" class="btn btn-primary @if($like->item->status === 'sold') disabled @endif">詳細を見る</a>
                     </div>
                 </div>
-            </div>
-            {{-- ページネーション（検索キーワード引き継ぎあり） --}}
-            <div class="d-flex justify-content-center">
-                {{ $likedItems->appends(request()->query())->links() }}
             </div>
         @empty
             <p>まだいいねした商品はありません。</p>
         @endforelse
+    </div>
+
+    {{-- ページネーション --}}
+    <div class="d-flex justify-content-center mt-4">
+        {{ $likedItems->links() }}
     </div>
 </div>
 @endsection

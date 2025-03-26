@@ -22,7 +22,7 @@
             <a class="nav-link {{ $tab === 'buy' ? 'active' : '' }}" href="/mypage?tab=buy">購入履歴</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ $tab === 'sell' ? 'active' : '' }}" href="/mypage?tab=sell">販売履歴</a>
+            <a class="nav-link {{ $tab === 'sell' ? 'active' : '' }}" href="/mypage?tab=sell">出品商品一覧</a>
         </li>
     </ul>
 

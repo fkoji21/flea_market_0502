@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ItemFactory extends Factory
@@ -12,14 +13,21 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->word(),
-            'description' => $this->faker->sentence(),
-            'image_url' => 'https://placehold.jp/300x300.png',
-            'category' => $this->faker->randomElement(['ファッション', '家電', '本', 'ゲーム']),
+            'user_id' => User::factory(),
+            'title' => $this->faker->words(2, true),
+            'description' => $this->faker->text(100),
+            'price' => $this->faker->numberBetween(1000, 10000),
+            'brand_name' => $this->faker->company(),
             'condition' => $this->faker->randomElement(['新品・未使用', '目立った傷や汚れなし', 'やや傷や汚れあり']),
-            'price' => $this->faker->numberBetween(500, 5000),
-            'status' => '販売中',
-            'user_id' => 1, // ダミーユーザーID
+            'image_url' => 'https://placehold.jp/300x300.png',
+            'is_sold' => false,
         ];
+    }
+
+    public function sold()
+    {
+        return $this->state([
+            'is_sold' => true,
+        ]);
     }
 }

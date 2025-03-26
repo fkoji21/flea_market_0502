@@ -7,6 +7,11 @@
 @section('content')
 <div class="container-sm mt-5">
     <h1 class="text-center">ログイン</h1>
+
+    @if (session('error'))
+        <div class="text-danger mb-3 text-center">{{ session('error') }}</div>
+    @endif
+
     <form action="{{ route('login') }}" method="post">
         @csrf
         <div class="mb-3">

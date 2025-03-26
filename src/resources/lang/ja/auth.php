@@ -10,8 +10,9 @@ return [
     | messages that we need to display to the user. You are free to modify
     | these language lines according to your application's requirements.
     |
-    */
+     */
 
-    'failed'   => '認証情報と一致するレコードがありません。',
-    'throttle' => 'ログインの試行回数が多すぎます。:seconds 秒後にお試しください。',
+    'failed' => 'ログイン情報が登録されていません',
+    'password' => 'パスワードが正しくありません',
+    'throttle' => 'ログイン試行が多すぎます。 :seconds 秒後にもう一度お試しください。',
 ];

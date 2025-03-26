@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PurchaseRequest;
-use App\Models\Address;
 use App\Models\Item;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
+    // 購入画面の表示
     public function showPurchaseForm($item_id)
     {
         $item = Item::findOrFail($item_id);
@@ -22,25 +22,32 @@ class PurchaseController extends Controller
         return view('purchases.form', compact('item', 'address'));
     }
 
+    // Stripe決済前に仮登録（決済完了時にpaymentSuccessで本登録）
     public function purchase(PurchaseRequest $request, $item_id)
     {
+        $address = Auth::user()->address;
+
         Purchase::create([
             'user_id' => Auth::id(),
             'item_id' => $item_id,
             'payment_method' => $request->payment_method,
-            /*'address_id' => Auth::user()->address->id,*/
+            'status' => 'pending', // Stripe完了後にcompletedへ変更
+            'shipping_postal_code' => $address->postal_code ?? null,
+            'shipping_address_line1' => $address->address_line1 ?? null,
+            'shipping_address_line2' => $address->address_line2 ?? null,
         ]);
 
-        $item = Item::findOrFail($item_id);
-        $item->is_sold = true;
-        $item->save();
-
-        return redirect('/mypage')->with('success', '購入が完了しました！');
+        return redirect()->route('checkout', ['item_id' => $item_id]);
     }
 
+    // 購入済み商品一覧
     public function purchasedItems()
     {
-        $items = Auth::user()->purchases()->with('item')->get()->pluck('item');
-        return view('user.purchased_items', compact('items'));
+        $purchasedItems = Purchase::with('item')
+            ->where('user_id', Auth::id())
+            ->where('status', 'completed')
+            ->get();
+
+        return view('user.purchased_items', compact('purchasedItems'));
     }
 }

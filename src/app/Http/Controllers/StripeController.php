@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Item;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Stripe\Checkout\Session as StripeSession;
 use Stripe\Stripe;
 
@@ -44,25 +47,45 @@ class StripeController extends Controller
     public function paymentSuccess(Request $request)
     {
         Stripe::setApiKey(config('services.stripe.secret'));
-        $session_id = $request->query('session_id');
-        $item_id = $request->query('item_id'); // セッション or URLパラメータから渡す
 
-        // セッション情報取得（必要に応じて）
+        $session_id = $request->query('session_id');
+        $item_id = $request->query('item_id');
+
         $session = StripeSession::retrieve($session_id);
 
-        // 購入情報をDBに保存
-        \App\Models\Purchase::create([
-            'user_id' => auth()->id(),
-            'item_id' => $item_id,
-            'payment_method' => 'card', // 今回はカード決済なので固定でもOK
-            'status' => 'completed',
-        ]);
+        $address = Address::where('user_id', Auth::id())->first();
 
-        // 商品を sold に更新
-        $item = \App\Models\Item::findOrFail($item_id);
-        $item->status = 'sold';
+        // pendingレコードを探して completed に更新！
+        $purchase = Purchase::where('user_id', Auth::id())
+            ->where('item_id', $item_id)
+            ->where('status', 'pending')
+            ->first();
+
+        if ($purchase) {
+            $purchase->update([
+                'status' => 'completed',
+                'shipping_postal_code' => $address->postal_code ?? '',
+                'shipping_address_line1' => $address->address_line1 ?? '',
+                'shipping_address_line2' => $address->address_line2 ?? '',
+            ]);
+        } else {
+            // もしpendingが無かった場合は念のため作成
+            Purchase::create([
+                'user_id' => Auth::id(),
+                'item_id' => $item_id,
+                'payment_method' => 'card',
+                'status' => 'completed',
+                'shipping_postal_code' => $address->postal_code ?? '',
+                'shipping_address_line1' => $address->address_line1 ?? '',
+                'shipping_address_line2' => $address->address_line2 ?? '',
+            ]);
+        }
+
+        // アイテムを売却済みに
+        $item = Item::findOrFail($item_id);
+        $item->is_sold = true;
         $item->save();
 
-        return view('payment_success'); // 成功メッセージ用ビュー
+        return view('payment_success');
     }
 }

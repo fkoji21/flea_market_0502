@@ -12,11 +12,18 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            // メール認証が必要な場合
+            if (!Auth::user()->hasVerifiedEmail()) {
+                Auth::logout(); // ログインを解除して
+                return redirect('/login')->with('message', 'メール認証が必要です');
+            }
+
+            // メール認証済
+            return redirect('/');
         }
 
         return back()->withErrors([
-            'email' => '認証に失敗しました',
+            'email' => 'ログイン情報が登録されていません',
         ]);
 
     }
@@ -34,6 +41,6 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('login', compact('login'));
+        return view('login');
     }
 }

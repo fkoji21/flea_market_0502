@@ -24,15 +24,18 @@
             @enderror
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">パスワード</label>
+            <label for="password" class="form-label">パスワード（8文字以上）</label>
             <input type="password" name="password" id="password" class="form-control">
             @error('password')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
         <div class="mb-3">
-            <label for="password_confirmation" class="form-label">確認用パスワード</label>
+            <label for="password_confirmation" class="form-label">パスワード（確認用）</label>
             <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+            @error('password_confirmation')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
         <button type="submit" class="btn btn-danger w-100">登録する</button>
     </form>
