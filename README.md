@@ -77,15 +77,15 @@ php artisan db:seed
 - **Faker（fzaninotto/faker）：**
   Laravel 8.x 環境における標準の Faker ライブラリを使用。
   住所関連のダミーデータ生成には `ja_JP` の日本語プロバイダーを一部導入したほか、
-  Fakerで正しく日本語の都道府県名を扱えない問題に対応するため、
-  独自の `PrefectureProvider` を作成し、テストやSeederで使用しています。
+  Faker で正しく日本語の都道府県名を扱えない問題に対応するため、
+  独自の `PrefectureProvider` を作成し、テストや Seeder で使用しています。
   これにより、日本語での郵便番号・都道府県・住所を自然に再現したテストデータの生成が可能になっています。
 
 ---
 
 ## ER 図
 
-`flea_market.drawio.png`
+![ER図](flea_market.drawio.png)
 
 ---
 
