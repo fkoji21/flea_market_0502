@@ -17,7 +17,29 @@
             <h4 class="text-danger">¥{{ number_format($item->price) }} <small class="text-muted">(税込)</small></h4>
 
             <div class="d-flex align-items-center my-3">
-                <span class="me-3">⭐ {{ $item->likes->count() }}</span>
+                @auth
+                {{-- ログイン時：押せるボタン --}}
+                <button
+                    class="btn btn-like-toggle p-0 border-0 bg-transparent me-3"
+                    data-item-id="{{ $item->id }}"
+                    data-liked="{{ $item->likes->contains('user_id', auth()->id()) ? 'true' : 'false' }}"
+                >
+                    @if ($item->likes->contains('user_id', auth()->id()))
+                        <i class="bi bi-star-fill text-warning"></i>
+                    @else
+                        <i class="bi bi-star-fill text-secondary"></i>
+                    @endif
+                        <span class="like-count ms-1">{{ $item->likes->count() }}</span>
+                </button>
+                @else
+                    {{-- 未ログイン時：見た目だけで押せない --}}
+                    <span class="me-3">
+                        <i class="bi-star-fill text-secondary"></i>
+                        <span class="like-count ms-1">{{ $item->likes->count() }}</span>
+                    </span>
+                @endauth
+
+                {{-- コメント数 --}}
                 <span>💬 {{ $item->comments->count() }}</span>
             </div>
 
@@ -66,4 +88,46 @@
         @endauth
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const likeButtons = document.querySelectorAll('.btn-like-toggle');
+
+        likeButtons.forEach(button => {
+            button.addEventListener('click', async function () {
+                const itemId = this.dataset.itemId;
+                const liked = this.dataset.liked === 'true';
+                const url = liked ? `/item/${itemId}/unlike` : `/item/${itemId}/like`;
+
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                    },
+                });
+
+                if (res.ok) {
+                    this.dataset.liked = liked ? 'false' : 'true';
+
+                    const icon = this.querySelector('i');
+                    // まず一旦 class を全部消す
+                    icon.className = 'bi';
+
+                    // 押した直後（いいね追加 or 取り消し）にクラスを再構築
+                    if (this.dataset.liked === 'true') {
+                        icon.classList.add('bi-star-fill', 'text-warning');
+                    } else {
+                        icon.classList.add('bi-star-fill', 'text-secondary');
+                    }
+
+                    const countSpan = this.querySelector('.like-count');
+                    const currentCount = parseInt(countSpan.textContent);
+                    countSpan.textContent = liked ? currentCount - 1 : currentCount + 1;
+                } else {
+                    alert('通信エラーが発生しました');
+                }
+            });
+        });
+    });
+</script>
 @endsection
