@@ -22,7 +22,7 @@
         </div>
         <div class="mb-3">
             <label for="postal_code" class="form-label">郵便番号</label>
-            <input type="text" name="postal_code" class="form-control" value="{{ old('postal_code', $address->postal_code ?? '') }}">
+            <input type="text" name="postal_code" class="form-control" value="{{ old('postal_code', $user->postal_code ?? '') }}">
             @error('postal_code')
             <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -30,7 +30,7 @@
 
         <div class="mb-3">
             <label for="address_line1" class="form-label">住所</label>
-            <input type="text" name="address_line1" class="form-control" value="{{ old('address_line1', $address->address_line1 ?? '') }}">
+            <input type="text" name="address_line1" class="form-control" value="{{ old('address_line1', $user->address_line1 ?? '') }}">
             @error('address_line1')
             <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -38,7 +38,7 @@
 
         <div class="mb-3">
             <label for="address_line2" class="form-label">建物名・部屋番号</label>
-            <input type="text" name="address_line2" class="form-control" value="{{ old('address_line2', $address->address_line2 ?? '') }}">
+            <input type="text" name="address_line2" class="form-control" value="{{ old('address_line2', $user->address_line2 ?? '') }}">
             @error('address_line2')
             <div class="text-danger">{{ $message }}</div>
             @enderror

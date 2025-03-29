@@ -29,8 +29,6 @@
 
             <h5>商品説明</h5>
             <p>{{ $item->description }}</p>
-            <p><strong>カラー:</strong> {{ $item->color ?? '未設定' }}</p>
-            <p><strong>商品の状態:</strong> {{ $item->condition }}</p>
 
             <h5>商品情報</h5>
             <p>
@@ -39,6 +37,7 @@
                     <span class="badge bg-secondary">{{ $category->name }}</span>
                 @endforeach
             </p>
+            <p><strong>商品の状態:</strong> {{ $item->condition }}</p>
         </div>
     </div>
 

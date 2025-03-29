@@ -2,21 +2,20 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Item;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ItemSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        $user = User::first();
+        // テストユーザーを除外して取得
+        $nonTestUsers = User::where('email', '!=', 'test@example.com')->get();
+        $categories = Category::pluck('id');
 
+        // 商品データ（仕様に準拠した固定データ）
         $items = [
             [
                 'title' => '腕時計',
@@ -90,11 +89,18 @@ class ItemSeeder extends Seeder
             ],
         ];
 
-        foreach ($items as $item) {
-            Item::create(array_merge($item, [
+        foreach ($items as $index => $itemData) {
+            $user = $nonTestUsers[$index % $nonTestUsers->count()];
+
+            $item = Item::create(array_merge($itemData, [
                 'user_id' => $user->id,
                 'is_sold' => false,
             ]));
+
+            // ランダムに1〜3カテゴリを割り当て（重複なし）
+            $item->categories()->attach(
+                $categories->random(rand(1, 3))->unique()
+            );
         }
 
     }

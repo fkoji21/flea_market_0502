@@ -33,22 +33,18 @@ class ItemController extends Controller
     public function mylist(Request $request)
     {
         $user = Auth::user();
-        $likedItemsQuery = $user->likes()->with('item');
+        $likedItemIds = $user->likes()->pluck('item_id'); // ← いいねされた商品のIDを取得
 
-        // 自分の商品は除外
-        $likedItemsQuery->whereHas('item', function ($query) use ($user) {
-            $query->where('user_id', '!=', $user->id);
-        });
+        $query = Item::whereIn('id', $likedItemIds)
+            ->where('user_id', '!=', $user->id); // 自分の商品除外
 
         if ($request->filled('keyword')) {
             $keyword = $request->keyword;
-            $likedItemsQuery->whereHas('item', function ($query) use ($keyword) {
-                $query->where('title', 'like', "%{$keyword}%");
-            });
+            $query->where('title', 'like', "%{$keyword}%");
         }
 
-        $likedItems = $likedItemsQuery->paginate(9);
-        return view('items.mylist', compact('likedItems'));
+        $items = $query->paginate(9);
+        return view('items.mylist', ['likedItems' => $items]);
     }
 
     public function show($item_id)
