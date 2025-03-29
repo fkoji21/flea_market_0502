@@ -20,9 +20,9 @@
     @if (!isset($hideHeader) || !$hideHeader)
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">COACHTECH</a>
+            <a class="navbar-brand" href="/"><img src="{{ asset('images/logo.svg') }}" alt="ロゴ" height="24"></a>
             <div class="collapse navbar-collapse">
-                <form action="{{ route('items.index') }}" method="GET" class="d-flex me-auto">
+                <form action="{{ request()->is('mylist') ? route('items.mylist') : route('items.index') }}" method="GET">
                     <input type="text" name="keyword" class="form-control me-2" placeholder="商品名で検索" value="{{ request('keyword') }}">
                     <button type="submit" class="btn btn-outline-light">検索</button>
                 </form>
