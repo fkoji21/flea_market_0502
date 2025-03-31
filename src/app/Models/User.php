@@ -56,4 +56,18 @@ class User extends Authenticatable implements MustVerifyEmail
     {return $this->hasOne(Address::class);}
     public function likes()
     {return $this->belongsToMany(Item::class, 'likes');}
+
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        $path = storage_path('app/public/' . $this->profile_image);
+
+        if ($this->profile_image && file_exists($path)) {
+            return asset('storage/' . $this->profile_image);
+        }
+
+        return 'https://placehold.jp/100x100.png';
+
+    }
 }

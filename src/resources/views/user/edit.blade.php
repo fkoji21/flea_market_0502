@@ -12,7 +12,7 @@
             <input type="file" name="profile_image" class="form-control">
             @if ($user->profile_image)
                 <div class="mt-2">
-                    <img src="{{ $user->profile_image }}" width="100" class="rounded-circle" alt="現在の画像">
+                    <img src="{{ $user->image_url }}" width="100" class="rounded-circle" alt="現在の画像">
                 </div>
             @endif
         </div>

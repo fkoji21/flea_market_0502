@@ -7,7 +7,7 @@
     <h2>マイページ</h2>
     <div class="card mb-4">
         <div class="card-body d-flex">
-            <img src="{{ $user->profile_image ?? 'https://placehold.jp/100x100.png' }}" alt="プロフィール画像" class="rounded-circle me-3" width="100" height="100">
+            <img src="{{ $user->image_url ?? 'https://placehold.jp/100x100.png' }}" alt="プロフィール画像" class="rounded-circle me-3" width="100" height="100">
             <div>
                 <h4>{{ $user->name }}</h4>
                 <p>メール: {{ $user->email }}</p>

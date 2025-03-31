@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    @yield('head')
     <style>
       body {
         font-family: 'Noto Sans JP', sans-serif;
@@ -23,8 +24,7 @@
             <a class="navbar-brand" href="/"><img src="{{ asset('images/logo.svg') }}" alt="ロゴ" height="24"></a>
             <div class="collapse navbar-collapse">
                 <form action="{{ request()->is('mylist') ? route('items.mylist') : route('items.index') }}" method="GET">
-                    <input type="text" name="keyword" class="form-control me-2" placeholder="商品名で検索" value="{{ request('keyword') }}">
-                    <button type="submit" class="btn btn-outline-light">検索</button>
+                    <input type="text" name="keyword" class="form-control me-2" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
                 </form>
                 <ul class="navbar-nav ms-auto">
                     @auth

@@ -5,12 +5,16 @@
 @section('content')
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6">
-            <img src="{{ $item->image_url }}" alt="商品画像" class="img-fluid border">
+        {{-- 左：商品画像 --}}
+        <div class="col-md-6 position-relative d-flex justify-content-center align-items-start">
+            <img src="{{ $item->image_url }}" alt="商品画像"
+                class="img-fluid border"
+                style="max-width: 80%; height: auto; object-fit: cover;">
             @if($item->status === 'sold')
-                <span class="badge bg-danger position-absolute m-2">SOLD</span>
+                <span class="badge bg-danger position-absolute top-0 start-0 m-2">SOLD</span>
             @endif
         </div>
+        {{-- 右：商品情報 --}}
         <div class="col-md-6">
             <h2 class="fw-bold">{{ $item->title }}</h2>
             <p class="text-muted">ブランド名: {{ $item->brand ?? '未設定' }}</p>
@@ -60,32 +64,32 @@
                 @endforeach
             </p>
             <p><strong>商品の状態:</strong> {{ $item->condition }}</p>
-        </div>
-    </div>
+            <div>
+                <h4>コメント ({{ $item->comments->count() }})</h4>
+                @foreach ($item->comments as $comment)
+                    <div class="rounded p-2 mb-2 d-flex align-items-start">
+                        <img src="{{$comment->user->image_url}}" alt="プロフィール画像" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                        <div class="rounded p-2 mb-2">
+                            <strong>{{ $comment->user->name }}</strong>
+                            <p class="mb-0">{{ $comment->comment }}</p>
+                        </div>
+                    </div>
+                @endforeach
 
-    <hr class="my-4">
-
-    <div>
-        <h4>コメント ({{ $item->comments->count() }})</h4>
-        @foreach ($item->comments as $comment)
-            <div class="border rounded p-2 mb-2">
-                <strong>{{ $comment->user->name }}</strong>
-                <p class="mb-0">{{ $comment->comment }}</p>
+                @auth
+                    <form action="{{ route('item.comment', $item->id) }}" method="POST" class="mt-3">
+                        @csrf
+                        <div class="mb-3">
+                            <textarea name="comment" class="form-control" rows="3" placeholder="商品のコメントを入力"></textarea>
+                            @error('comment')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">コメントを送信する</button>
+                    </form>
+                @endauth
             </div>
-        @endforeach
-
-        @auth
-            <form action="{{ route('item.comment', $item->id) }}" method="POST" class="mt-3">
-                @csrf
-                <div class="mb-3">
-                    <textarea name="comment" class="form-control" rows="3" placeholder="商品のコメントを入力"></textarea>
-                    @error('comment')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <button type="submit" class="btn btn-danger w-100">コメントを送信する</button>
-            </form>
-        @endauth
+        </div>
     </div>
 </div>
 <script>
