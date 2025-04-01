@@ -4,20 +4,12 @@
 
 @section('content')
 <div class="container-sm mt-4">
-    <h2>商品を出品する</h2>
+    <h2>商品の出品</h2>
     <form action="/sell" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="image_url" class="form-label">商品画像</label>
             <input type="file" name="image_url" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="title" class="form-label">商品名</label>
-            <input type="text" name="title" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">商品説明</label>
-            <textarea name="description" rows="4" class="form-control" required></textarea>
         </div>
         <div class="mb-3">
             <label class="form-label">カテゴリー（複数選択可）</label>
@@ -36,6 +28,18 @@
                 <option value="目立った傷や汚れなし">目立った傷や汚れなし</option>
                 <option value="やや傷や汚れあり">やや傷や汚れあり</option>
             </select>
+        </div>
+        <div class="mb-3">
+            <label for="title" class="form-label">商品名</label>
+            <input type="text" name="title" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="brand_name" class="form-label">ブランド名</label>
+            <input type="text" name="brand_name" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">商品説明</label>
+            <textarea name="description" rows="4" class="form-control" required></textarea>
         </div>
         <div class="mb-3">
             <label for="price" class="form-label">販売価格（円）</label>

@@ -30,6 +30,7 @@ class StoreItemRequest extends FormRequest
             'categories' => 'required|array|min:1',
             'condition' => 'required|string',
             'price' => 'required|integer|min:0',
+            'brand_name' => ['nullable', 'string', 'max:255'],
         ];
     }
 

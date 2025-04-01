@@ -21,7 +21,7 @@
         {{-- 右：商品情報 --}}
         <div class="col-md-6">
             <h2 class="fw-bold">{{ $item->title }}</h2>
-            <p class="text-muted">ブランド名: {{ $item->brand ?? '未設定' }}</p>
+            <p class="text-muted">ブランド名: {{ $item->brand_name ?? '未設定' }}</p>
             <h4 class="text-danger">¥{{ number_format($item->price) }} <small class="text-muted">(税込)</small></h4>
 
             <div class="d-flex align-items-center my-3">
@@ -51,8 +51,12 @@
                 <span>💬 {{ $item->comments->count() }}</span>
             </div>
 
-            @if(!$item->is_sold)
-                <a href="{{ route('checkout', ['item_id' => $item->id]) }}" class="btn btn-danger w-100 mb-4">購入手続きへ</a>
+            @if (!$item->is_sold)
+                @if ($item->user_id !== Auth::id())
+                    <a href="{{ route('checkout', ['item_id' => $item->id]) }}" class="btn btn-danger w-100 mb-4">購入手続きへ</a>
+                @else
+                    <p class="text-muted">※これはあなたが出品した商品です</p>
+                @endif
             @else
                 <p class="text-danger fw-bold">この商品は売り切れです。</p>
             @endif
