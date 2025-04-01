@@ -24,9 +24,9 @@
 }
 
 .image-wrapper img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
     width: 100%;
-    height: auto;
-    display: block;
 }
 
 .badge.bg-danger {
