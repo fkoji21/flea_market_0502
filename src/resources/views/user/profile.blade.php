@@ -22,38 +22,14 @@
     <!-- タブ -->
     <ul class="nav nav-tabs mb-4">
         <li class="nav-item">
-            <a class="nav-link {{ $tab === 'buy' ? 'active' : '' }}" href="/mypage?tab=buy">購入履歴</a>
+            <a class="nav-link {{ $tab === 'sell' ? 'active' : '' }}" href="/mypage?tab=sell">出品した商品</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ $tab === 'sell' ? 'active' : '' }}" href="/mypage?tab=sell">出品商品一覧</a>
+            <a class="nav-link {{ $tab === 'buy' ? 'active' : '' }}" href="/mypage?tab=buy">購入した商品</a>
         </li>
     </ul>
 
-    @if ($tab === 'buy')
-        <h4>購入した商品一覧</h4>
-        <div class="row">
-            @forelse ($purchasedItems as $item)
-                <div class="col-md-4 mb-3">
-                    <a href="{{ route('items.show', $item->id) }}" class="item-card-link d-block text-center text-decoration-none text-dark">
-                        <div class="item-card">
-                            <div class="image-wrapper position-relative">
-                                <img src="{{ $item->image_url }}" alt="商品画像" class="img-fluid mb-2" style="object-fit: cover;">
-                                @if ($item->is_sold)
-                                <span class="badge bg-danger position-absolute top-0 start-0 m-2">SOLD</span>
-                                @endif
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $item->title }}</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            @empty
-                <p>購入履歴はありません。</p>
-            @endforelse
-        </div>
-    @elseif ($tab === 'sell')
-        <h4>出品した商品一覧</h4>
+    @if ($tab === 'sell')
         <div class="row">
             @forelse ($soldItems as $item)
                 <div class="col-md-4 mb-3">
@@ -73,6 +49,28 @@
                 </div>
             @empty
                 <p>出品履歴はありません。</p>
+            @endforelse
+        </div>
+    @elseif ($tab === 'buy')
+        <div class="row">
+            @forelse ($purchasedItems as $item)
+                <div class="col-md-4 mb-3">
+                    <a href="{{ route('items.show', $item->id) }}" class="item-card-link d-block text-center text-decoration-none text-dark">
+                        <div class="item-card">
+                            <div class="image-wrapper position-relative">
+                                <img src="{{ $item->image_url }}" alt="商品画像" class="img-fluid mb-2" style="object-fit: cover;">
+                                @if ($item->is_sold)
+                                <span class="badge bg-danger position-absolute top-0 start-0 m-2">SOLD</span>
+                                @endif
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $item->title }}</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @empty
+                <p>購入履歴はありません。</p>
             @endforelse
         </div>
     @endif
