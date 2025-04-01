@@ -18,3 +18,21 @@
     background-color: #f8f9fa;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.08);
 }
+
+.image-wrapper {
+    position: relative;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.badge.bg-danger {
+    font-size: 2rem; /* 少し大きく */
+    padding: 8px 15px; /* パディング調整 */
+    border-radius: 3px; /* 角丸を少し大きめに */
+    font-weight: bold; /* 太字でしっかり見せる */
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3); /* 軽く影をつけて立体感 */
+}

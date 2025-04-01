@@ -2,17 +2,21 @@
 
 @section('title', '商品詳細')
 
+@section('head')
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+@endsection
+
 @section('content')
 <div class="container mt-5">
     <div class="row">
         {{-- 左：商品画像 --}}
         <div class="col-md-6 position-relative d-flex justify-content-center align-items-start">
-            <img src="{{ $item->image_url }}" alt="商品画像"
-                class="img-fluid border"
-                style="max-width: 80%; height: auto; object-fit: cover;">
-            @if($item->status === 'sold')
-                <span class="badge bg-danger position-absolute top-0 start-0 m-2">SOLD</span>
-            @endif
+            <div class="image-wrapper position-relative" style="width: 80%;">
+                <img src="{{ $item->image_url }}" alt="商品画像" class="img-fluid border" style="max-width: 80%; height: auto; object-fit: cover;">
+                @if($item->is_sold)
+                    <span class="badge bg-danger position-absolute top-0 start-0 m-2">SOLD</span>
+                @endif
+            </div>
         </div>
         {{-- 右：商品情報 --}}
         <div class="col-md-6">
@@ -47,7 +51,7 @@
                 <span>💬 {{ $item->comments->count() }}</span>
             </div>
 
-            @if($item->status !== 'sold')
+            @if(!$item->is_sold)
                 <a href="{{ route('checkout', ['item_id' => $item->id]) }}" class="btn btn-danger w-100 mb-4">購入手続きへ</a>
             @else
                 <p class="text-danger fw-bold">この商品は売り切れです。</p>

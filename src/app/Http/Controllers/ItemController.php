@@ -26,7 +26,12 @@ class ItemController extends Controller
             $query->where('title', 'like', "%{$keyword}%");
         }
 
-        $items = $query->paginate(9);
+        // 並び順を追加（おすすめ）
+        $items = $query->orderBy('created_at', 'desc')->paginate(9);
+
+        // ここで中身を確認（ページ1なら1〜9件）
+        //dd($items->pluck('id'));
+
         return view('items.index', compact('items'));
     }
 
