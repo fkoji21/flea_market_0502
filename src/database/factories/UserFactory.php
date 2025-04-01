@@ -24,11 +24,6 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'remember_token' => Str::random(10),
-
-            'postal_code' => $this->faker->postcode(),
-            'address_line1' => $this->faker->prefecture() . $this->faker->city(),
-            'address_line2' => $this->faker->streetAddress(),
-
             'profile_image' => 'https://placehold.jp/150x150.png',
         ];
     }

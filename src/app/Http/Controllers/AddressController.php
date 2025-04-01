@@ -26,7 +26,6 @@ class AddressController extends Controller
         Address::updateOrCreate(
             ['user_id' => Auth::id()],
             [
-                'name' => $request->name,
                 'postal_code' => $request->postal_code,
                 'address_line1' => $request->address_line1,
                 'address_line2' => $request->address_line2,

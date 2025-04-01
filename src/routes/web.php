@@ -25,8 +25,6 @@ Route::post('/item/{item}/unlike', [LikeController::class, 'destroy'])->name('it
 Route::post('/items/{item}/comment', [ItemController::class, 'addComment'])->name('item.comment')->middleware(['auth', 'verified']);
 
 // ✅ 購入関連
-//Route::get('/purchase/{item_id}', [PurchaseController::class, 'showPurchaseForm'])->middleware('auth', 'verified');
-//Route::post('/purchase/{item_id}', [PurchaseController::class, 'purchase'])->middleware('auth', 'verified');
 Route::get('/purchase/address/{item_id}', [AddressController::class, 'showChangeForm'])->middleware('auth', 'verified');
 Route::post('/purchase/address/{item_id}', [AddressController::class, 'updateAddress'])->middleware('auth', 'verified');
 

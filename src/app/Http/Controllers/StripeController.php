@@ -17,6 +17,10 @@ class StripeController extends Controller
         $item = Item::findOrFail($item_id);
         $address = Auth::user()->address;
 
+        if (!$address) {
+            return redirect("/purchase/address/{$item_id}")->with('error', '住所情報を先に登録してください。');
+        }
+
         return view('checkout', compact('item', 'address'));
     }
 
