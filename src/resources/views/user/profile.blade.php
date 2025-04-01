@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'マイページ')
+@section('head')
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+@endsection
 
 @section('content')
 <div class="container-sm mt-4">
@@ -31,13 +34,19 @@
         <div class="row">
             @forelse ($purchasedItems as $item)
                 <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <img src="{{ $item->image_url }}" class="card-img-top" alt="商品画像">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $item->title }}</h5>
-                            <p>¥{{ number_format($item->price) }}</p>
+                    <a href="{{ route('items.show', $item->id) }}" class="item-card-link d-block text-center text-decoration-none text-dark">
+                        <div class="item-card">
+                            <div class="image-wrapper position-relative">
+                                <img src="{{ $item->image_url }}" alt="商品画像" class="img-fluid mb-2" style="object-fit: cover;">
+                                @if ($item->is_sold)
+                                <span class="badge bg-danger position-absolute top-0 start-0 m-2">SOLD</span>
+                                @endif
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $item->title }}</h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             @empty
                 <p>購入履歴はありません。</p>
@@ -48,13 +57,19 @@
         <div class="row">
             @forelse ($soldItems as $item)
                 <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <img src="{{ $item->image_url }}" class="card-img-top" alt="商品画像">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $item->title }}</h5>
-                            <p>¥{{ number_format($item->price) }}</p>
+                    <a href="{{ route('items.show', $item->id) }}" class="item-card-link d-block text-center text-decoration-none text-dark">
+                        <div class="item-card">
+                            <div class="image-wrapper position-relative">
+                                <img src="{{ $item->image_url }}" class="img-fluid mb-2" alt="商品画像" style="object-fit: cover;">
+                                @if ($item->is_sold)
+                                    <span class="badge bg-danger position-absolute top-0 start-0 m-2">SOLD</span>
+                                @endif
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $item->title }}</h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             @empty
                 <p>出品履歴はありません。</p>
