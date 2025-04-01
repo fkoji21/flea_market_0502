@@ -18,7 +18,15 @@
     </style>
 </head>
 <body>
-    @if (!isset($hideHeader) || !$hideHeader)
+    @if (request()->is('login') || request()->is('register'))
+    {{-- ログイン・新規登録ページ用ヘッダー（ロゴだけ） --}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><img src="{{ asset('images/logo.svg') }}" alt="ロゴ" height="24"></a>
+        </div>
+    </nav>
+    @else
+    {{-- 通常ヘッダー --}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="/"><img src="{{ asset('images/logo.svg') }}" alt="ロゴ" height="24"></a>

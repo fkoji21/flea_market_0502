@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@php($hideHeader = true)
-
 @section('title', '会員登録')
 
 @section('content')
