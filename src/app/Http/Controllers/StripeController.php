@@ -15,7 +15,9 @@ class StripeController extends Controller
     public function checkout($item_id)
     {
         $item = Item::findOrFail($item_id);
-        return view('checkout', compact('item'));
+        $address = Auth::user()->address;
+
+        return view('checkout', compact('item', 'address'));
     }
 
     public function payment(Request $request)
