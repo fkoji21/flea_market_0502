@@ -30,7 +30,12 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="/"><img src="{{ asset('images/logo.svg') }}" alt="ロゴ" height="24"></a>
-            <div class="collapse navbar-collapse">
+            {{-- トグルボタン --}}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="ナビゲーション切り替え">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            {{-- トグル対象 --}}
+            <div class="collapse navbar-collapse" id="navbarContent">
                 <form action="{{ request()->is('mylist') ? route('items.mylist') : route('items.index') }}" method="GET">
                     <input type="text" name="keyword" class="form-control me-2" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
                 </form>
@@ -81,6 +86,7 @@
         </script>
         @yield('content')
     </main>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+@yield('scripts')
 </body>
 </html>

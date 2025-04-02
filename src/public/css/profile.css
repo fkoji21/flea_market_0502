@@ -32,3 +32,16 @@
     font-weight: bold; /* 太字でしっかり見せる */
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3); /* 軽く影をつけて立体感 */
 }
+
+/* タブの文字色を黒に統一 */
+.nav-tabs .nav-link {
+    color: #000;
+}
+
+/* 選択中タブの色を赤に変更 */
+.nav-tabs .nav-link.active {
+    color: #dc3545; /* Bootstrapの "text-danger" 相当 */
+    font-weight: bold;
+    border-color: transparent transparent #dc3545 transparent; /* 下線を赤に */
+    background-color: transparent; /* 背景透明のまま */
+}
