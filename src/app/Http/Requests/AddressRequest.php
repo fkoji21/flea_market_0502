@@ -24,6 +24,7 @@ class AddressRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required|string|max:255',
             'postal_code' => 'required|regex:/^\\d{3}-\\d{4}$/',
             'address_line1' => 'required',
             'address_line2' => 'required',
@@ -33,6 +34,7 @@ class AddressRequest extends FormRequest
     public function messages()
     {
         return [
+            'name.required' => 'お名前を入力してください',
             'postal_code.required' => '郵便番号を入力してください',
             'postal_code.regex' => '郵便番号はハイフンを含む8文字で入力してください',
             'address_line1.required' => '住所を入力してください',

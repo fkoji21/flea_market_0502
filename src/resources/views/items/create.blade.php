@@ -9,7 +9,10 @@
         @csrf
         <div class="mb-3">
             <label for="image_url" class="form-label">商品画像</label>
-            <input type="file" name="image_url" class="form-control" id="imageInput" required>
+            <input type="file" name="image_url" class="form-control" id="imageInput">
+            @error('image_url')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
             {{-- プレビューエリア --}}
             <div class="mt-3">
                 <img id="preview" src="#" alt="プレビュー" class="img-thumbnail" style="width: 400px; height: 400px; object-fit: cover; display: none;">
@@ -23,19 +26,28 @@
                 <label class="btn btn-outline-danger" for="category{{ $category->id }}">{{ $category->name }}</label>
             @endforeach
             </div>
+            @error('categories')
+                <div class="text-danger mt-2">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-3">
             <label for="condition" class="form-label">商品の状態</label>
-            <select name="condition" class="form-select" required>
+            <select name="condition" class="form-select">
                 <option value="">選択してください</option>
                 <option value="新品・未使用">新品・未使用</option>
                 <option value="目立った傷や汚れなし">目立った傷や汚れなし</option>
                 <option value="やや傷や汚れあり">やや傷や汚れあり</option>
             </select>
+            @error('condition')
+                <div class="text-danger mt-2">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-3">
             <label for="title" class="form-label">商品名</label>
-            <input type="text" name="title" class="form-control" required>
+            <input type="text" name="title" class="form-control">
+            @error('title')
+                <div class="text-danger mt-2">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-3">
             <label for="brand_name" class="form-label">ブランド名</label>
@@ -43,14 +55,20 @@
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">商品説明</label>
-            <textarea name="description" rows="4" class="form-control" required></textarea>
+            <textarea name="description" rows="4" class="form-control"></textarea>
+            @error('description')
+                <div class="text-danger mt-2">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-3">
             <label for="price" class="form-label">販売価格（円）</label>
             <div class="input-group">
                 <span class="input-group-text">¥</span>
-                <input type="number" name="price" class="form-control" min="0" required>
+                <input type="number" name="price" class="form-control" min="0">
             </div>
+            @error('price')
+                <div class="text-danger mt-2">{{ $message }}</div>
+            @enderror
         </div>
         <button type="submit" class="btn btn-danger w-100">出品する</button>
     </form>

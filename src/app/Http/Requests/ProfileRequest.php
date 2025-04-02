@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\AddressRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProfileRequest extends FormRequest
@@ -23,15 +24,24 @@ class ProfileRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $addressRules = (new AddressRequest())->rules();
+
+        return array_merge($addressRules, [
+            'name' => 'required|max:255',
             'profile_image' => 'nullable|mimes:jpeg,png',
-        ];
+        ]);
+
     }
 
     public function messages()
     {
-        return [
-            'profile_image.mimes' => 'プロフィール画像はjpegまたはpng形式でアップロードしてください',
-        ];
+        $addressMessages = (new AddressRequest())->messages();
+
+        return array_merge($addressMessages, [
+            'name.required' => 'ユーザー名を入力してください。',
+            'name.max' => 'ユーザー名は255文字以内で入力してください。',
+            'profile_image.mimes' => 'プロフィール画像はjpegまたはpng形式でアップロードしてください。',
+        ]);
+
     }
 }

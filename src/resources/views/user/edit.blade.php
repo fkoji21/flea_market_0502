@@ -10,6 +10,9 @@
         <div class="mb-3">
             <label for="profile_image" class="form-label">プロフィール画像</label>
             <input type="file" name="profile_image" class="form-control">
+            @error('profile_image')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
             @if ($user->profile_image)
                 <div class="mt-2">
                     <img src="{{ $user->image_url }}" width="100" class="rounded-circle" alt="現在の画像">
@@ -18,7 +21,10 @@
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">ユーザー名</label>
-            <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
+            <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}">
+            @error('name')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-3">
             <label for="postal_code" class="form-label">郵便番号</label>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
-use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\ExhibitionRequest;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Item;
@@ -64,7 +64,7 @@ class ItemController extends Controller
         return view('items.create', compact('categories'));
     }
 
-    public function store(StoreItemRequest $request)
+    public function store(ExhibitionRequest $request)
     {
         $path = $request->file('image_url')->store('items', 'public');
         $imageUrl = '/storage/' . $path;
