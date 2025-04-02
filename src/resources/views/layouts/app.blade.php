@@ -39,7 +39,7 @@
                 <form action="{{ request()->is('mylist') ? route('items.mylist') : route('items.index') }}" method="GET">
                     <input type="text" name="keyword" class="form-control me-2" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
                 </form>
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     @auth
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}" style="display:inline;">
