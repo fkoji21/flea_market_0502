@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PurchaseRequest;
 use App\Models\Address;
 use App\Models\Item;
 use App\Models\Purchase;
@@ -24,7 +25,7 @@ class StripeController extends Controller
         return view('checkout', compact('item', 'address'));
     }
 
-    public function payment(Request $request)
+    public function payment(PurchaseRequest $request)
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 

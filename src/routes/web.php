@@ -4,7 +4,6 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LikeController;
-use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;

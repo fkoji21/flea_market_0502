@@ -23,7 +23,7 @@
                 {{-- 支払い方法 --}}
                 <div class="mb-4">
                     <label for="payment_method" class="form-label">支払い方法</label>
-                    <select name="payment_method" id="payment_method" class="form-select" required>
+                    <select name="payment_method" id="payment_method" class="form-select">
                         <option value="">選択してください</option>
                         <option value="クレジットカード" {{ old('payment_method', Auth::user()->payment_method) == 'クレジットカード' ? 'selected' : '' }}>クレジットカード</option>
                         <option value="コンビニ払い" {{ old('payment_method', Auth::user()->payment_method) == 'コンビニ払い' ? 'selected' : '' }}>コンビニ払い</option>

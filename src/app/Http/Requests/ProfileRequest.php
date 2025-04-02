@@ -27,7 +27,7 @@ class ProfileRequest extends FormRequest
         $addressRules = (new AddressRequest())->rules();
 
         return array_merge($addressRules, [
-            'name' => 'required|max:255',
+            'name' => 'required|string|max:255',
             'profile_image' => 'nullable|mimes:jpeg,png',
         ]);
 
