@@ -16,7 +16,7 @@ class UserProfileTest extends TestCase
     {
         $user = User::factory()->create([
             'name' => 'テストユーザー',
-            'profile_image' => 'profile_test.jpg',
+            'profile_image' => 'https://placehold.jp/100x100.png',
         ]);
 
         // 出品した商品
@@ -35,7 +35,7 @@ class UserProfileTest extends TestCase
         $responseBuy = $this->actingAs($user)->get('/mypage?tab=buy');
         $responseBuy->assertStatus(200);
         $responseBuy->assertSee('テストユーザー');
-        $responseBuy->assertSee('profile_test.jpg');
+        $responseBuy->assertSee('https://placehold.jp/100x100.png');
 
         foreach ($itemsPurchased as $item) {
             $responseBuy->assertSee($item->title);

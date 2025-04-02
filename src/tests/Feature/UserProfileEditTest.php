@@ -15,7 +15,7 @@ class UserProfileEditTest extends TestCase
     {
         $user = User::factory()->create([
             'name' => '初期ユーザー名',
-            'profile_image' => 'initial_image.jpg',
+            'profile_image' => 'https://placehold.jp/100x100.png',
         ]);
 
         // 住所データを事前作成
@@ -30,7 +30,7 @@ class UserProfileEditTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('初期ユーザー名');
-        $response->assertSee('initial_image.jpg');
+        $response->assertSee('https://placehold.jp/100x100.png');
         $response->assertSee('123-4567');
         $response->assertSee('東京都港区1-1-1');
         $response->assertSee('初期マンション101');

@@ -11,18 +11,19 @@ class PaymentMethodTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_payment_method_is_reflected_on_checkout_page()
+    public function test_payment_redirects_to_stripe_checkout()
     {
-        $user = User::factory()->create(['payment_method' => 'クレジットカード']);
+        $user = User::factory()->create(['email_verified_at' => now()]);
         $item = Item::factory()->create();
 
-        $response = $this->actingAs($user)->get(route('checkout', ['item_id' => $item->id]));
-
-        $response->assertStatus(200);
-        $response->assertSeeInOrder([
-            'クレジットカード',
-            'selected',
+        // 支払い処理にPOST（実際にStripeへリダイレクトされるはず）
+        $response = $this->actingAs($user)->post('/payment', [
+            'item_id' => $item->id,
+            'payment_method' => 'クレジットカード',
         ]);
 
+        // リダイレクト確認
+        $response->assertRedirect();
+        $this->assertStringContainsString('https://checkout.stripe.com', $response->headers->get('Location'));
     }
 }

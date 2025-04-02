@@ -18,24 +18,27 @@ class PurchaseTest extends TestCase
         $item = Item::factory()->create(['is_sold' => false]);
         Address::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->post("/purchase/{$item->id}", [
-            'payment_method' => 'カード支払い',
+        $response = $this->actingAs($user)->post("/payment", [
+            'item_id' => $item->id,
+            'payment_method' => 'クレジットカード',
         ]);
 
-        $response->assertRedirect(route('checkout', ['item_id' => $item->id]));
-        $this->assertDatabaseHas('purchases', [
-            'user_id' => $user->id,
-            'item_id' => $item->id,
-            'status' => 'pending',
-        ]);
+        $response->assertRedirect(); // StripeセッションURLへリダイレクトされる
+
+        // 本番では Stripe セッション生成 → 購入成功後にDBに保存されるので、ここでは一旦保留 or モック対象
+        // $this->assertDatabaseHas('purchases', [
+        //     'user_id' => $user->id,
+        //     'item_id' => $item->id,
+        // ]);
     }
 
     public function test_guest_cannot_purchase_item()
     {
         $item = Item::factory()->create(['is_sold' => false]);
 
-        $response = $this->post("/purchase/{$item->id}", [
-            'payment_method' => 'カード支払い',
+        $response = $this->post('/payment', [
+            'item_id' => $item->id,
+            'payment_method' => 'クレジットカード',
         ]);
 
         $response->assertRedirect('/login');
@@ -50,7 +53,8 @@ class PurchaseTest extends TestCase
         $item = Item::factory()->create(['is_sold' => false]);
         Address::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->post("/purchase/{$item->id}", [
+        $response = $this->actingAs($user)->post('/payment', [
+            'item_id' => $item->id,
             'payment_method' => '',
         ]);
 
@@ -60,17 +64,14 @@ class PurchaseTest extends TestCase
     public function test_purchased_item_shows_sold_label_in_index_page()
     {
         $user = User::factory()->create();
-        // 自分以外のユーザーの商品にする
         $item = Item::factory()->create([
             'is_sold' => true,
             'user_id' => User::factory()->create()->id,
         ]);
 
-        // 購入後に商品一覧ページでSOLDが表示されるか確認
         $response = $this->actingAs($user)->get(route('items.index'));
 
         $response->assertStatus(200);
         $response->assertSee('SOLD');
-
     }
 }

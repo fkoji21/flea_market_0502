@@ -32,7 +32,7 @@ class AddressUpdateTest extends TestCase
         ]);
 
         // 購入画面で反映確認
-        $response = $this->actingAs($user)->get('/purchase/' . $item->id);
+        $response = $this->actingAs($user)->get('/checkout/' . $item->id);
         $response->assertStatus(200);
         $response->assertSee('123-4567');
         $response->assertSee('東京都新宿区1-2-3');
