@@ -14,7 +14,7 @@ class UserController extends Controller
     public function show(Request $request)
     {
         $user = Auth::user();
-        $tab = $request->tab ?? 'buy';
+        $tab = $request->query('tab', 'sell');
 
         $purchasedItems = Purchase::where('user_id', $user->id)
             ->with('item')
