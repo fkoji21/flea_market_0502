@@ -76,6 +76,22 @@ php artisan db:seed
 - **メール送信確認:** MailHog にて確認済
 - **ログイン時:** メール認証必須
 
+## 📧 メール認証（MailHog）
+
+このアプリは、メール認証に MailHog を使用しています。
+Dockerで立ち上げた後、以下のURLから送信されたメール内容を確認できます：
+📨 MailHog Web UI: [http://localhost:8025](http://localhost:8025)
+会員登録後、認証リンクがこのメールボックスに届くので、リンクをクリックして認証を完了してください。
+
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=example@example.com
+MAIL_FROM_NAME="Flea Market App"
+
 ---
 
 ## ER 図
