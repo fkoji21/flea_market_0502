@@ -97,7 +97,6 @@ MAIL_FROM_NAME="Flea Market App"
 
 ---
 
-
 ## ER 図
 
 ![ER図](flea_market.drawio.png)
@@ -134,9 +133,7 @@ MAIL_FROM_NAME="Flea Market App"
 // routes/web.php
 return redirect('/login'); // テスト用
 // return redirect('/mypage'); // 本番用
-````
+```
 
 - テスト便利性を優先し `/login`へリダイレクトしています
 - 実運用では UX を考慮し `/mypage` へのリダイレクトを推奨
-
-```
