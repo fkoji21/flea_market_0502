@@ -80,9 +80,11 @@ php artisan db:seed
 
 このアプリは、メール認証に MailHog を使用しています。
 Dockerで立ち上げた後、以下のURLから送信されたメール内容を確認できます：
+````md
 📨 MailHog Web UI: [http://localhost:8025](http://localhost:8025)
 会員登録後、認証リンクがこのメールボックスに届くので、リンクをクリックして認証を完了してください。
 
+```env
 MAIL_MAILER=smtp
 MAIL_HOST=mailhog
 MAIL_PORT=1025
