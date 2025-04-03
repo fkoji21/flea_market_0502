@@ -84,7 +84,7 @@ Docker で立ち上げた後、以下の URL から送信されたメール内�
 📨 MailHog Web UI: [http://localhost:8025](http://localhost:8025)
 会員登録後、認証リンクがこのメールボックスに届くので、リンクをクリックして認証を完了してください。
 
-````env
+```env
 MAIL_MAILER=smtp
 MAIL_HOST=mailhog
 MAIL_PORT=1025
@@ -93,7 +93,6 @@ MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=example@example.com
 MAIL_FROM_NAME="Flea Market App"
-
 ---
 
 ## ER 図
