@@ -79,8 +79,9 @@ php artisan db:seed
 ## 📧 メール認証（MailHog）
 
 このアプリは、メール認証に MailHog を使用しています。
-Dockerで立ち上げた後、以下のURLから送信されたメール内容を確認できます：
-````md
+Docker で立ち上げた後、以下の URL から送信されたメール内容を確認できます：
+
+```md
 📨 MailHog Web UI: [http://localhost:8025](http://localhost:8025)
 会員登録後、認証リンクがこのメールボックスに届くので、リンクをクリックして認証を完了してください。
 
@@ -132,7 +133,15 @@ MAIL_FROM_NAME="Flea Market App"
 // routes/web.php
 return redirect('/login'); // テスト用
 // return redirect('/mypage'); // 本番用
-```
+````
+`````
+
+````
 
 - テスト便利性を優先し `/login`へリダイレクトしています
 - 実運用では UX を考慮し `/mypage` へのリダイレクトを推奨
+
+```
+
+```
+````
