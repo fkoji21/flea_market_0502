@@ -140,5 +140,3 @@ return redirect('/login'); // テスト用
 - 実運用では UX を考慮し `/mypage` へのリダイレクトを推奨
 
 ```
-
-```
